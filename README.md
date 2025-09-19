@@ -1,76 +1,56 @@
-<pre> ```mermaid erDiagram
-    USERS {
-        int id PK
-        string email
-        string name
-        string avatar_url
-        datetime created_at
-    }
+# 📝 Trello Clone (Fullstack Project with Next.js & Supabase)
 
-    PROFILES {
-        int id PK, FK -> USERS.id
-        string full_name
-        string bio
-        datetime created_at
+A fullstack **Kanban board application** inspired by Trello, built to learn how to **design, scale, and maintain** a modern web application.  
+This project demonstrates my skills in **frontend (React/Next.js, TailwindCSS)** and **backend (Supabase/PostgreSQL, authentication, API routes)**.
+
+---
+
+## 🚀 Tech Stack
+
+- **Frontend:** Next.js 14 (App Router), TypeScript, TailwindCSS, ShadCN/UI  
+- **Backend:** Supabase (PostgreSQL, Auth, Row Level Security)  
+- **State Management:** React Query / Server Actions (Next.js)  
+- **Auth:** Supabase Auth (email/password, OAuth)  
+- **Deployment:** Vercel (frontend) + Supabase (backend, free tier)  
+
+---
+
+## 📊 Database ERD
+
+```mermaid
+erDiagram
+    USERS ||--o{ BOARDS : owns
+    USERS ||--o{ TASKS : creates
+    BOARDS ||--o{ COLUMNS : contains
+    COLUMNS ||--o{ TASKS : contains
+
+    USERS {
+        uuid id PK
+        text email
+        text name
+        timestamp created_at
     }
 
     BOARDS {
-        int id PK
-        string name
-        int owner_id FK -> USERS.id
-        datetime created_at
-    }
-
-    BOARD_MEMBERS {
-        int id PK
-        int board_id FK -> BOARDS.id
-        int user_id FK -> USERS.id
-        string role
-        datetime created_at
+        uuid id PK
+        uuid owner_id FK
+        text title
+        timestamp created_at
     }
 
     COLUMNS {
-        int id PK
-        int board_id FK -> BOARDS.id
-        string name
+        uuid id PK
+        uuid board_id FK
+        text title
         int position
-        datetime created_at
     }
 
     TASKS {
-        int id PK
-        int column_id FK -> COLUMNS.id
-        string title
-        string description
-        int assignee FK -> USERS.id
-        datetime due_date
+        uuid id PK
+        uuid column_id FK
+        uuid creator_id FK
+        text title
+        text description
         int position
-        datetime created_at
+        timestamp created_at
     }
-
-    ATTACHMENTS {
-        int id PK
-        int task_id FK -> TASKS.id
-        string url
-        datetime created_at
-    }
-
-    COMMENTS {
-        int id PK
-        int task_id FK -> TASKS.id
-        int user_id FK -> USERS.id
-        string content
-        datetime created_at
-    }
-
-    USERS ||--|| PROFILES : has
-    USERS ||--o{ BOARDS : owns
-    USERS ||--o{ BOARD_MEMBERS : joins
-    BOARDS ||--o{ BOARD_MEMBERS : has
-    BOARDS ||--o{ COLUMNS : has
-    COLUMNS ||--o{ TASKS : has
-    USERS ||--o{ TASKS : assigned
-    TASKS ||--o{ ATTACHMENTS : has
-    TASKS ||--o{ COMMENTS : has
-    USERS ||--o{ COMMENTS : writes
- ``` </pre>

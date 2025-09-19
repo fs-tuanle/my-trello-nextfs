@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-tblue-500: rgb(0, 101, 255);
+  --color-tblue-600: rgb(23, 43, 77);
+  --color-tblue-700: rgb(7, 71, 166);
+
+  --font-primary: "charlie", sans-serif;
+}
+
+@font-face {
+  font-family: charlie;
+  src: url("/fonts/CharlieDisplay-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: charlie;
+  src: url("/fonts/CharlieDisplay-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: charlie;
+  src: url("/fonts/CharlieText-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
