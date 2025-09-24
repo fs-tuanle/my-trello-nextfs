@@ -1,12 +1,27 @@
-import { supabase } from "@/app/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 import { NextResponse } from "next/server";
+
+export async function GET() {
+  const { data, error } = await supabase.from("boards").select("*");
+
+  if (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: error.message,
+      },
+      { status: 400 }
+    );
+  }
+  return NextResponse.json({ success: true, boards: data });
+}
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, owner_id } = body;
+    const { name, desc, owner_id } = body;
 
-    if (!name || !owner_id) {
+    if (!name || !desc || !owner_id) {
       return NextResponse.json(
         {
           success: false,
@@ -18,7 +33,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase
       .from("boards")
-      .insert([{ name, owner_id }])
+      .insert([{ name, desc, owner_id }])
       .select()
       .single();
 
@@ -30,9 +45,11 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, board: data[0] });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errorMessage =
+      err instanceof Error ? err.message : "An unknown error occurred";
     return NextResponse.json(
-      { success: false, error: err.message },
+      { success: false, error: errorMessage },
       { status: 500 }
     );
   }

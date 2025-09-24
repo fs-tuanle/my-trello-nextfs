@@ -46,9 +46,9 @@ export default function Login() {
               Email:
             </label>
             <input
-              type="mail"
-              name="mail"
-              id="mail"
+              type="email"
+              name="email"
+              id="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
