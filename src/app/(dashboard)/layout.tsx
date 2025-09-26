@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
+import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import Logo from "@/components/ui/Logo";
 import Link from "next/link";
@@ -28,6 +28,8 @@ export default function DashboardLayout({
   const [loading, setLoading] = useState(true);
   const [sellectedNav, setSelectedNav] = useState("boards");
 
+  const supabase = createSupabaseBrowserClient();
+
   useEffect(() => {
     const checkUser = async () => {
       const {
@@ -42,7 +44,7 @@ export default function DashboardLayout({
     };
 
     checkUser();
-  }, [router]);
+  }, [router, supabase.auth]);
 
   if (loading) return <p>Loading...</p>;
 

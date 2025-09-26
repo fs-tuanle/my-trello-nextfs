@@ -1,7 +1,7 @@
 "use client";
 
 import AuthLogo from "@/components/ui/AuthLogo";
-import { supabase } from "@/lib/supabaseClient";
+import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -10,6 +10,8 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const supabase = createSupabaseBrowserClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

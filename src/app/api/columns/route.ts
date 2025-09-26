@@ -1,44 +1,36 @@
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
-import { getUser } from "@/lib/supabaseServer";
 import { NextResponse } from "next/server";
 
 const supabase = createSupabaseBrowserClient();
 
 export async function GET() {
-  const { data, error } = await supabase.from("boards").select("*");
+  const { data, error } = await supabase.from("columns").select("*");
 
   if (error) {
     return NextResponse.json(
-      {
-        success: false,
-        error: error.message,
-      },
+      { success: false, error: error.message },
       { status: 400 }
     );
   }
+
   return NextResponse.json({ success: true, boards: data });
 }
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, desc } = body;
+    const { name, desc, board_id, position } = body;
 
-    if (!name || !desc) {
+    if (!name.trim()) {
       return NextResponse.json(
-        {
-          success: false,
-          error: "Missing required fields",
-        },
+        { success: false, message: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    const user = await getUser();
-
     const { data, error } = await supabase
-      .from("boards")
-      .insert([{ name, desc, owner_id: user?.id }])
+      .from("columns")
+      .insert([{ name, desc, board_id, position }])
       .select()
       .single();
 
@@ -49,12 +41,10 @@ export async function POST(req: Request) {
       );
     }
 
-    return NextResponse.json({ success: true, board: data[0] });
+    return NextResponse.json({ success: true, column: data[0] });
   } catch (err: unknown) {
-    const errorMessage =
-      err instanceof Error ? err.message : "An unknown error occurred";
     return NextResponse.json(
-      { success: false, error: errorMessage },
+      { success: false, error: (err as Error).message },
       { status: 500 }
     );
   }

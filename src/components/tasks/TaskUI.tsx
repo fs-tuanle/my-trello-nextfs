@@ -1,9 +1,10 @@
+import { convertIsoDate } from "@/lib/utils";
 import { ClockAlert } from "lucide-react";
 
 interface TaskUIProps {
   title: string;
-  description: string;
-  dueDate: string;
+  description: string | null;
+  dueDate: string | null;
 }
 
 export default function TaskUI({ title, description, dueDate }: TaskUIProps) {
@@ -13,7 +14,11 @@ export default function TaskUI({ title, description, dueDate }: TaskUIProps) {
       <p className="text-sm opacity-55 line-clamp-1">{description}</p>
       <div className="mt-2 flex items-center text-gray-500">
         <ClockAlert size={14} />
-        <span className="ml-1 text-sm opacity-70">Due Date: {dueDate}</span>
+        <span className="ml-1 text-sm opacity-70">
+          {dueDate !== null
+            ? convertIsoDate(dueDate)
+            : "Chưa thiết lập thời gian"}
+        </span>
       </div>
     </div>
   );

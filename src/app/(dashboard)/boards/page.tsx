@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { IBoardRes } from "@/types/board";
 import BoardCard from "@/components/boards/BoardCard";
-import { Plus } from "lucide-react";
 import AddBoardModal from "@/components/modals/AddBoardModal";
 
 export default function DashboardPage() {
@@ -15,7 +14,6 @@ export default function DashboardPage() {
         const res = await fetch("api/boards");
         const data = await res.json();
         if (data.success) {
-          // console.log(data.boards);
           setBoards(data.boards);
         }
       } catch (err) {
@@ -29,7 +27,7 @@ export default function DashboardPage() {
     <div>
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Welcome to your Dashboard 🚀</h2>
-        <AddBoardModal />
+        <AddBoardModal/>
       </div>
       <p className="mt-2 text-gray-600">
         Đây là nơi bạn có thể quản lý project giống Trello.

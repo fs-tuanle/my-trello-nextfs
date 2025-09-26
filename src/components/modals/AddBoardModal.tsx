@@ -16,24 +16,21 @@ export default function AddBoardModal() {
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
 
-  const createBoard = async (name: string, desc: string, owner_id: string) => {
-    const res = await fetch("/api/boards", {
+  const createBoard = async (name: string, desc: string) => {
+    await fetch("/api/boards", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: name,
         desc: desc,
-        owner_id: owner_id,
       }),
     });
-    const data = await res.json();
-    console.log("Created:", data.board);
   };
 
   const handleCreate = () => {
     if (!title.trim() || !subtitle.trim()) return;
 
-    createBoard(title, subtitle, "58fd9a41-28f5-41aa-92c4-300f0e5668e9");
+    createBoard(title, subtitle);
 
     setTitle("");
     setSubtitle("");
