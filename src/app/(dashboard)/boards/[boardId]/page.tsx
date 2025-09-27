@@ -1,6 +1,6 @@
 import ColumnUI from "@/components/columns/ColumnUI";
 import { parseItemId } from "@/lib/utils";
-import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
+import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import AddColumnModal from "@/components/modals/AddColumnModal";
 
 export default async function BoardPage({
@@ -8,7 +8,7 @@ export default async function BoardPage({
 }: {
   params: { boardId: string };
 }) {
-  const supabase = createSupabaseBrowserClient();
+  const supabase = await createSupabaseServerClient();
 
   const { boardId } = params;
 
@@ -37,14 +37,11 @@ export default async function BoardPage({
         <p className="text-sm font-normal opacity-60 ml-2">{board.desc}</p>
       </header>
       <main className="flex overflow-x-auto space-x-4">
-        {columns?.length === 0 ||
-          (columns === null ? (
-            <div>Bạn chưa có danh sách cột nào trong bảng.</div>
-          ) : (
-            columns.map((col) => {
-              return <ColumnUI key={col.id} {...col} />;
-            })
-          ))}
+        {!columns || columns.length === 0 ? (
+          <div>Bạn chưa có danh sách cột nào trong bảng.</div>
+        ) : (
+          columns.map((col) => <ColumnUI key={col.id} {...col} />)
+        )}
       </main>
     </div>
   );
