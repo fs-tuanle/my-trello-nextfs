@@ -3,14 +3,14 @@ import { parseItemId } from "@/lib/utils";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 import AddColumnModal from "@/components/modals/AddColumnModal";
 
-export default async function BoardPage({
-  params,
-}: {
-  params: { boardId: string };
-}) {
+interface PageProps {
+  params: Promise<{ boardId: string }>;
+}
+
+export default async function BoardPage(props : PageProps) {
   const supabase = await createSupabaseServerClient();
 
-  const { boardId } = params;
+  const { boardId } = await props.params;
 
   const id = parseItemId(boardId);
 
