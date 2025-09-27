@@ -17,7 +17,7 @@ export async function createSupabaseServerClient() {
   );
 }
 
-// Helper lấy user ở Server
+// Helper Server
 export async function getUser() {
   const supabase = await createSupabaseServerClient();
   const {

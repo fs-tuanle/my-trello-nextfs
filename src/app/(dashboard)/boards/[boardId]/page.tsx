@@ -3,14 +3,16 @@ import { parseItemId } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import AddColumnModal from "@/components/modals/AddColumnModal";
 
-export default async function BoardPage({
-  params,
-}: {
-  params: { boardId: string };
-}) {
+interface BoardProps {
+  params: {
+    boardId: string;
+  };
+}
+
+export default async function BoardPage({ params }: BoardProps) {
   const supabase = createSupabaseBrowserClient();
 
-  const { boardId } = await params;
+  const { boardId } = params;
 
   const id = parseItemId(boardId);
 
@@ -20,7 +22,7 @@ export default async function BoardPage({
     .eq("id", id)
     .single();
 
-  if (!board) return "No data";
+  if (!board) return <div>No data</div>;
 
   const { data: columns } = await supabase
     .from("columns")
