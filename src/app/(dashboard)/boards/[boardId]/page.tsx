@@ -3,13 +3,11 @@ import { parseItemId } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import AddColumnModal from "@/components/modals/AddColumnModal";
 
-interface BoardProps {
-  params: {
-    boardId: string;
-  };
-}
-
-export default async function BoardPage({ params }: BoardProps) {
+export default async function BoardPage({
+  params,
+}: {
+  params: { boardId: string };
+}) {
   const supabase = createSupabaseBrowserClient();
 
   const { boardId } = params;
