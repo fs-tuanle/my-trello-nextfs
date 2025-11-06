@@ -7,7 +7,7 @@ interface PageProps {
   params: Promise<{ boardId: string }>;
 }
 
-export default async function BoardPage(props : PageProps) {
+export default async function BoardPage(props: PageProps) {
   const supabase = await createSupabaseServerClient();
 
   const { boardId } = await props.params;
@@ -29,19 +29,23 @@ export default async function BoardPage(props : PageProps) {
 
   return (
     <div className="mt-4 p-4 border border-dashed border-gray-300 rounded-lg bg-white drop-shadow-2xl">
-      <header className="mb-4">
+      <header className="mb-4 drop-shadow-2xl">
         <div className="flex justify-between items-center mb-2">
           <h3 className="text-lg font-semibold mb-2">{board.name}</h3>
           <AddColumnModal board_id={id} />
         </div>
         <p className="text-sm font-normal opacity-60 ml-2">{board.desc}</p>
       </header>
-      <main className="flex overflow-x-auto space-x-4">
-        {!columns || columns.length === 0 ? (
-          <div>Bạn chưa có danh sách cột nào trong bảng.</div>
-        ) : (
-          columns.map((col) => <ColumnUI key={col.id} {...col} />)
-        )}
+      <main className="max-w-6xl mx-auto overflow-hidden">
+        <div className="flex overflow-x-auto">
+          {!columns || columns.length === 0 ? (
+            <div>Bạn chưa có danh sách cột nào trong bảng.</div>
+          ) : (
+            columns.map((col) => (
+              <ColumnUI key={col.id} className="mb-3 h-fit" {...col} />
+            ))
+          )}
+        </div>
       </main>
     </div>
   );

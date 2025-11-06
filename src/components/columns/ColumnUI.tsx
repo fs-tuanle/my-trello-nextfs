@@ -4,15 +4,17 @@ import { Plus, SquarePen } from "lucide-react";
 import TaskUI from "../tasks/TaskUI";
 import { useEffect, useState } from "react";
 import { ITasksRes } from "@/types/task";
+import { cx } from "class-variance-authority";
 
 interface IColumnUI {
   id: number;
   name: string;
   desc: string;
   position: number;
+  className: string;
 }
 
-export default function ColumnUI({ id, name, desc }: IColumnUI) {
+export default function ColumnUI({ id, name, desc, className }: IColumnUI) {
   const [tasks, setTasks] = useState<ITasksRes[]>([]);
 
   useEffect(() => {
@@ -28,11 +30,11 @@ export default function ColumnUI({ id, name, desc }: IColumnUI) {
   }, [id]);
 
   return (
-    <div className="w-1/4 bg-gray-100 p-4 rounded-lg mr-4">
+    <div className={cx("min-w-1/4 bg-blue-400 p-4 rounded-lg mr-4", className)}>
       <header className="mb-4">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg font-semibold">{name}</h2>
-          <button className="flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-400 transition">
+          <button className="flex items-center gap-1 px-2 py-1 rounded transition">
             <SquarePen size={14} />
             Sửa
           </button>
@@ -58,7 +60,7 @@ export default function ColumnUI({ id, name, desc }: IColumnUI) {
         </div>
       </main>
       <footer>
-        <button className="mt-4 flex items-center gap-1 px-2 py-1 rounded hover:bg-gray-400 transition">
+        <button className="mt-4 flex items-center gap-1 px-2 py-1 rounded w-full hover:bg-blue-700 hover:text-white font-semibold transition cursor-pointer">
           <Plus size={14} /> Thêm thẻ
         </button>
       </footer>
